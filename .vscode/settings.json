@@ -1,0 +1,12 @@
+{
+
+  "files.exclude": {
+    "**/.git": true,
+    "**/app/**/*.js": true,
+    "**/*.map": true,
+ 
+    "**/.DS_Store": true
+  },
+  "files.autoSave": "afterDelay",
+  "html.format.wrapAttributes": "force-aligned"
+}
