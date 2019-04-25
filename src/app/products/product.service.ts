@@ -1,18 +1,38 @@
 import { Injectable } from "@angular/core";
 import { IProduct } from "./product";
-import { Http } from "@angular/http";
-import { Observable } from "rxjs";
-import 'rxjs/add/operator/map';
-
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+ 
+import { Observable, throwError } from 'rxjs';
+import { catchError, tap, map } from 'rxjs/operators';
+ 
+//import { Http, Response } from '@angular/http';
 @Injectable()
 export class ProductService{
 private _url:string="http://localhost:3030/products";
 
-constructor(private _http:Http){}
+constructor(private http: HttpClient) { }
 
-getProducts():Observable<Response>{
+getProducts() :Observable<IProduct[]> {
 
-  return  this._http.get(this._url).map((response:Response))=><IProduct[]>response.json();
+  return  this.http.get(this._url) .pipe(map((response: any) => response.json()));
 
+  // return http.get<IProduct[]>(this._url).pipe(
+  //   tap(data => console.log('All: ' + JSON.stringify(data))),
+  //   catchError(this.handleError));
+}
+private handleError(err: HttpErrorResponse) {
+  // in a real world app, we may send the server to some remote logging infrastructure
+  // instead of just logging it to the console
+  let errorMessage = '';
+  if (err.error instanceof ErrorEvent) {
+    // A client-side or network error occurred. Handle it accordingly.
+    errorMessage = `An error occurred: ${err.error.message}`;
+  } else {
+    // The backend returned an unsuccessful response code.
+    // The response body may contain clues as to what went wrong,
+    errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
+  }
+  console.error(errorMessage);
+  return throwError(errorMessage);
 }
 }

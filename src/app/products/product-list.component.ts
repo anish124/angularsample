@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { IProduct } from './product';
 import { ProductService } from './product.service';
+
 @Component({ 
     selector:'pm-products',
     templateUrl:'./product-list.component.html' ,
@@ -37,8 +38,9 @@ toggleImage(): void {
 
     ngOnInit():void{
 
-      console.log('In OnInit');
-      this.products=this._productService.getProducts();
+      
+      console.log('In OnInit'+ this._productService.getProducts());
+    this.products=this._productService.getProducts()
     }
     onRatingClicked(message:string): void{
 
